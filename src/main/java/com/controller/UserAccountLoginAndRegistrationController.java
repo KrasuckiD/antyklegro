@@ -1,6 +1,5 @@
 package com.controller;
 
-import com.domain.UserAccount;
 import com.dto.UserDto;
 import com.exeption.EmailNotFoundException;
 import com.exeption.IncorrectPasswordException;

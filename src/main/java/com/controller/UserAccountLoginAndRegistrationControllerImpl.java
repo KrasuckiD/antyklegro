@@ -1,12 +1,10 @@
 package com.controller;
 
-import com.domain.UserAccount;
 import com.dto.UserDto;
 import com.exeption.EmailNotFoundException;
 import com.exeption.IncorrectPasswordException;
 import com.exeption.UserAlreadyExistException;
 import com.service.UserAccountLoginAndRegistrationService;
-import com.service.UserAccountLoginAndRegistrationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,7 @@ public class UserAccountLoginAndRegistrationControllerImpl implements UserAccoun
         this.service = service;
     }
 
-    UserAccountLoginAndRegistrationService service;
+   private UserAccountLoginAndRegistrationService service;
 
 
     @Override

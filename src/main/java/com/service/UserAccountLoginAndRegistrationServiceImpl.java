@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -28,12 +27,12 @@ public class UserAccountLoginAndRegistrationServiceImpl implements UserAccountLo
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(AntyklegroApplication.class);
 
     @Override
-    public UserDto getUserByEmailAndPassword(UserDto userDto) throws IOException, IncorrectPasswordException, EmailNotFoundException {
+    public UserDto getUserByEmailAndPassword(UserDto userDto) throws IncorrectPasswordException, EmailNotFoundException {
         if (repository.existsByEmail(userDto.getEmail())) {
             Optional<UserAccount> user = repository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
-            if (repository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword()).isPresent()) {
-                UserDto returnedUser = getDtoUser(user);
-                return returnedUser;
+            if (user.isPresent()) {
+                return getDtoUser(user.get());
+
             } else {
                 log.info("Password incorrect, try again.");
                 throw new IncorrectPasswordException();
@@ -65,15 +64,15 @@ public class UserAccountLoginAndRegistrationServiceImpl implements UserAccountLo
         }
     }
 
-    private UserDto getDtoUser(Optional<UserAccount> user) {
-        UserDto userDto = UserDto.builder()
-                .email(user.get().getEmail())
-                .password(user.get().getPassword())
-                .accountName(user.get().getAccountName())
-                .addressRegion(user.get().getAddressRegion())
-                .addressCity(user.get().getAddressCity())
-                .addressStreet(user.get().getAddressStreet())
-                .build();
-        return userDto;
+    private UserDto getDtoUser(UserAccount user) {
+             return UserDto.builder()
+                    .email(user.getEmail())
+                    .password(user.getPassword())
+                    .accountName(user.getAccountName())
+                    .addressRegion(user.getAddressRegion())
+                    .addressCity(user.getAddressCity())
+                    .addressStreet(user.getAddressStreet())
+                    .build();
+        }
     }
-}
+
