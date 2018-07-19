@@ -20,21 +20,21 @@ public class AntyklegroApplication {
     @Bean
     public CommandLineRunner demo(UserAccountRepository repository) {
         return args -> {
-            repository.save(UserAccount.builder().login("DK").password("qwer").accountName("Kras")
+            repository.save(UserAccount.builder().email("DK").password("qwer").accountName("Kras")
                     .addressRegion("Wielkopolska").addressCity("Poznan").addressStreet("Katowicka")
-                    .accountCreateDate("17.07.2018").accountStatus("active").accountTypePremium(true).build());
+                    .accountCreateDate("17.07.2018").accountActivation(true).accountTypePremium(true).build());
 
-            repository.save(UserAccount.builder().login("DCz").password("tyui").accountName("Czech")
+            repository.save(UserAccount.builder().email("DCz").password("tyui").accountName("Czech")
                     .addressRegion("Malopolska").addressCity("Kolo").addressStreet("Wloclawska")
-                    .accountCreateDate("16.07.2018").accountStatus("active").accountTypePremium(false).build());
+                    .accountCreateDate("16.07.2018").accountActivation(true).accountTypePremium(false).build());
 
-            repository.save(UserAccount.builder().login("ML").password("asdf").accountName("Lemon")
+            repository.save(UserAccount.builder().email("ML").password("asdf").accountName("Lemon")
                     .addressRegion("Slask").addressCity("Smigiel").addressStreet("NieWiem")
-                    .accountCreateDate("15.07.2018").accountStatus("inactive").accountTypePremium(false).build());
+                    .accountCreateDate("15.07.2018").accountActivation(true).accountTypePremium(false).build());
 
-            repository.save(UserAccount.builder().login("LK").password("ghjk").accountName("Kwas")
+            repository.save(UserAccount.builder().email("LK").password("ghjk").accountName("Kwas")
                     .addressRegion("Zachodniopomorskie").addressCity("ZielonaGora").addressStreet("Jakas")
-                    .accountCreateDate("14.07.2018").accountStatus("inactive").accountTypePremium(false).build());
+                    .accountCreateDate("14.07.2018").accountActivation(false).accountTypePremium(false).build());
 
             log.info("Users find witch findAll");
             log.info("_________________________________________");

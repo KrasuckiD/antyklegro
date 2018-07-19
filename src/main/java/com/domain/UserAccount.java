@@ -1,5 +1,6 @@
 package com.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,8 @@ public class UserAccount implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String login;
+    private String email;
+    @JsonIgnore
     private String password;
     private String accountName;
     private String addressRegion;
@@ -28,7 +30,7 @@ public class UserAccount implements Serializable {
 
 
     private String accountCreateDate;
-    private String accountStatus;
+    private boolean accountActivation;
     private boolean accountTypePremium;
 
 
@@ -42,7 +44,7 @@ public class UserAccount implements Serializable {
     private List<AuctionBidding> biddingUser;
 
     @OneToMany
-    private List <AuctionObservation> obserwation;
+    private List <AuctionObservation> observations;
 
     @OneToOne
     AuctionRating rating;
