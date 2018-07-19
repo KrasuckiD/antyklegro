@@ -17,9 +17,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(value = {IncorrectPasswordException.class})
-    public ResponseEntity<Object> incorrectPasswordHandleConflict(Exception ex, WebRequest request) {
-        String bodyOfResponse = "You entered the wrong password. Try again";
+    @ExceptionHandler(value = {IncorrectPasswordOrEmailException.class})
+    public ResponseEntity<Object> incorrectPasswordAndEmailHandleConflict(Exception ex, WebRequest request) {
+        String bodyOfResponse = "You entered the wrong password or email. Try again";
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 

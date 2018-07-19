@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 public class AuctionObservation implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne

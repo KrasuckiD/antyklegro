@@ -4,7 +4,7 @@ import com.AntyklegroApplication;
 import com.domain.UserAccount;
 import com.dto.UserDto;
 import com.exeption.EmailNotFoundException;
-import com.exeption.IncorrectPasswordException;
+import com.exeption.IncorrectPasswordOrEmailException;
 import com.exeption.UserAlreadyExistException;
 import com.repository.UserAccountRepository;
 import org.slf4j.LoggerFactory;
@@ -15,10 +15,10 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
-public class UserAccountLoginAndRegistrationServiceImpl implements UserAccountLoginAndRegistrationService {
+public class UserAccountServiceImpl implements UserAccountService {
 
     @Autowired
-    public UserAccountLoginAndRegistrationServiceImpl(UserAccountRepository repository) {
+    public UserAccountServiceImpl(UserAccountRepository repository) {
         this.repository = repository;
     }
 
@@ -27,19 +27,19 @@ public class UserAccountLoginAndRegistrationServiceImpl implements UserAccountLo
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(AntyklegroApplication.class);
 
     @Override
-    public UserDto getUserByEmailAndPassword(UserDto userDto) throws IncorrectPasswordException, EmailNotFoundException {
+    public UserDto getUserByEmailAndPassword(UserDto userDto) throws IncorrectPasswordOrEmailException {
         if (repository.existsByEmail(userDto.getEmail())) {
             Optional<UserAccount> user = repository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
             if (user.isPresent()) {
                 return getDtoUser(user.get());
 
             } else {
-                log.info("Password incorrect, try again.");
-                throw new IncorrectPasswordException();
+                log.info("Password or email incorrect, try again.");
+                throw new IncorrectPasswordOrEmailException();
             }
         }
         log.info("Email not found.");
-        throw new EmailNotFoundException();
+        throw new IncorrectPasswordOrEmailException();
     }
 
     @Override
@@ -61,6 +61,17 @@ public class UserAccountLoginAndRegistrationServiceImpl implements UserAccountLo
                     .build();
             log.info("New user add to database");
             return repository.save(user);
+        }
+    }
+
+    @Override
+    public UserAccount getUserByEmail(String email) throws EmailNotFoundException {
+        Optional<UserAccount> user = repository.findByEmail(email);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            log.info("Email not found");
+            throw new EmailNotFoundException();
         }
     }
 
