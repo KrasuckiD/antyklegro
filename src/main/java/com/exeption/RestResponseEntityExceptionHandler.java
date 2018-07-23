@@ -28,4 +28,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         String bodyOfResponse = "The user with the given email already exists";
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
     }
+    @ExceptionHandler(value = {ResourceNotFoundException.class})
+    public ResponseEntity<Object> resourceNotFoundHandleConflict(Exception ex, WebRequest request) {
+        String bodyOfResponse = "Resource not found";
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
 }

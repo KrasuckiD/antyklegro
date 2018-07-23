@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AuctionDto {
-
     private String userEmail;
     private String name;
     private String summary;
+    private String category;
     private int lowPrice;
     private int buyNowPrice;
 

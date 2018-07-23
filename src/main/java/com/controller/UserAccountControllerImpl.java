@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.domain.UserAccount;
 import com.dto.UserDto;
 import com.exeption.IncorrectPasswordOrEmailException;
 import com.exeption.UserAlreadyExistException;
@@ -8,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.*;
+import java.util.Optional;
+
 
 
 @RestController
@@ -23,16 +25,21 @@ public class UserAccountControllerImpl implements UserAccountController {
 
 
     @Override
-    @PostMapping("/register")
-    public ResponseEntity<UserDto> addUserToDtb(@RequestBody UserDto userDto) throws UserAlreadyExistException {
-        service.createUser(userDto);
-        return new ResponseEntity<>(OK);
+    @RequestMapping(path = "/register", method = RequestMethod.POST)
+    public ResponseEntity<UserAccount> addUserToDtb
+            (@RequestBody UserDto userDto) throws UserAlreadyExistException {
+        return Optional.ofNullable(service.createUser(userDto))
+                .map(ResponseEntity::ok)
+                .orElseThrow(UserAlreadyExistException::new);
     }
 
     @Override
-    @GetMapping("/login")
-    public ResponseEntity<UserDto> loginUser(UserDto userDto) throws IncorrectPasswordOrEmailException {
-        service.getUserByEmailAndPassword(userDto);
-        return new ResponseEntity<>(OK);
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    public ResponseEntity<UserDto> loginUser
+            (@RequestBody UserDto userDto)
+            throws IncorrectPasswordOrEmailException {
+        return Optional.ofNullable(service.getUserByEmailAndPassword(userDto))
+                .map(ResponseEntity::ok)
+                .orElseThrow(IncorrectPasswordOrEmailException::new);
     }
 }

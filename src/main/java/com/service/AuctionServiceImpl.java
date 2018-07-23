@@ -28,7 +28,7 @@ public class AuctionServiceImpl implements AuctionService {
     public Auction addAuctionToDtb(AuctionDto auctionDto) throws EmailNotFoundException {
         UserAccount userAccount = userAccountService.getUserByEmail(auctionDto.getUserEmail());
         Auction auction = Auction.builder()
-                .users(userAccount)
+                .owner(userAccount)
                 .name(auctionDto.getName())
                 .summary(auctionDto.getSummary())
                 .lowPrice(auctionDto.getLowPrice())
@@ -42,5 +42,22 @@ public class AuctionServiceImpl implements AuctionService {
         auctionRepository.save(auction);
 
         return auction;
+    }
+
+    @Override
+    public void removeAuction(Long id) {
+        auctionRepository.deleteById(id);
+    }
+
+    private AuctionDto getAuctionDto(Auction auction) {
+        return AuctionDto.builder()
+                .userEmail(auction.getOwner().getEmail())
+                .name(auction.getName())
+                .summary(auction.getSummary())
+                .category(auction.getCategory().toString())
+                .lowPrice(auction.getLowPrice())
+                .buyNowPrice(auction.getBuyNowPrice())
+                .endDate(auction.getEndDate())
+                .build();
     }
 }
